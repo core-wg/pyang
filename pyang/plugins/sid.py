@@ -602,7 +602,9 @@ class SidFile:
                 self.merge_item('data', "/%s:%s" % (self.module_name, statement.arg))
                 for substmt in statement.i_children:
                     if substmt.keyword in self.inrpc_keywords:
-                        self.collect_inner_data_nodes(substmt.i_children)
+                        if len(substmt.i_children) > 0:
+                            self.merge_item('data', "/%s:%s/%s" % (self.module_name, statement.arg, substmt.keyword))
+                            self.collect_inner_data_nodes(substmt.i_children)
 
             elif statement.keyword == 'notification':
                 self.merge_item('data', "/%s:%s" % (self.module_name, statement.arg))
